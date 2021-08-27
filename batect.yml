@@ -1,0 +1,33 @@
+containers:
+  build:
+    image: adoptopenjdk/openjdk16:alpine-slim
+    environment:
+      GRADLE_RO_DEP_CACHE: /home/ort/.gradle-ro-dep-cache
+    run_as_current_user:
+      enabled: true
+      home_directory: /home/ort
+    volumes:
+      # Mount any Gradle cache present on the host read-only into the
+      # container to speed up the build.
+      - local: ~/.gradle/caches
+        container: /home/ort/.gradle-ro-dep-cache
+      # Mount the source code into the container.
+      - local: .
+        container: /home/ort/src
+      # Cache contens written to /home/ort/.gradle between runs.
+      - type: cache
+        name: gradle-user-home
+        container: /home/ort/.gradle
+    working_directory: /home/ort/src
+  run:
+    image: adoptopenjdk/openjdk16:alpine-slim
+
+tasks:
+  gradle:
+    run:
+      container: build
+      command: ./gradlew --no-daemon --stacktrace
+  ort:
+    run:
+      container: run
+      command: ort
