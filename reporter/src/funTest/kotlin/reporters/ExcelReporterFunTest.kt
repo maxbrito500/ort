@@ -42,7 +42,7 @@ import org.ossreviewtoolkit.utils.test.readOrtResult
 
 class ExcelReporterFunTest : WordSpec({
     "ExcelReporter" should {
-        "successfully export to an Excel sheet" {
+        "successfully export to an Excel sheet".config(enabled = false) {
             // TODO: Find out why Apache POI seems to prevent immediate deletion of the written XLSX file on Windows.
             val outputDir = createTempDirectory("$ORT_NAME-${javaClass.simpleName}").toFile().apply { deleteOnExit() }
             val ortResult = readOrtResult(
