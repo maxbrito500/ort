@@ -9,5 +9,5 @@ homepage = "https://example.org"
 cfg-if = "0.1.9"
 
 [dev-dependencies]
-spin = "0.5.0"
+spin = "0.5.2"
 integration = {path = "integration"}
